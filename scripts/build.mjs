@@ -7,6 +7,8 @@ import YAML from 'yaml';
 
 const TEMPLATE_KEYS = ['category', 'icon', 'description'];
 const COMPANY_DIR = /^(?:[a-z0-9-]+--)?([a-z0-9]{8,})$/;
+const NAME_PATTERN = /^[A-Za-z0-9\-_.]+$/;
+const NAME_MAX_LENGTH = 100;
 
 const validateAgent = new Ajv({ allErrors: true, strict: false })
   .compile(JSON.parse(readFileSync('schema/agent.schema.json', 'utf8')));
@@ -53,6 +55,9 @@ const readTemplate = (file) => {
     });
   }
   if (agent.name !== id) fail(`name "${agent.name}" must match the file name "${id}"`);
+  if (!NAME_PATTERN.test(id) || id.length > NAME_MAX_LENGTH) {
+    fail(`file name "${id}" can only use letters, digits, "-", "_" and ".", up to ${NAME_MAX_LENGTH} characters`);
+  }
 
   return {
     id, category: template.category, icon: template.icon, description: template.description, agent,
