@@ -1,6 +1,16 @@
 # Agent templates
 
-Templates shown on the "Create an agent" page of the Paradime agent builder. Each merge to `main` publishes them to https://paradime-io.github.io/agent-templates/index.json, and the app picks them up within minutes, no release needed.
+Templates shown on the "Create an agent" page of the Paradime agent builder, for every company.
+
+## How it works
+
+1. Each template is one file in `templates/`: a normal agent definition (the same file you would put in `.dinoai/agents/`) plus a `template:` block that describes the card.
+2. When a change merges to `main`, the **Publish** workflow validates every file and publishes them all as one file: https://paradime-io.github.io/agent-templates/index.json
+3. The app loads that file when someone opens the templates page. Changes show up within about 15 minutes of Publish finishing (GitHub Pages caches for 10 minutes, the app refreshes every 5). No app release is needed.
+4. Companies can also have their own templates, kept in the private [agent-templates-companies](https://github.com/paradime-io/agent-templates-companies) repo. The app shows them next to these; a company template with the same file name as one here replaces it for that company. That repo's README explains how to add a company.
+5. If this file cannot be loaded, the app falls back to the templates built into it, so the page never ends up empty.
+
+Everything here is public. Anything meant for one company goes in the private repo instead.
 
 ## Proposing a template
 
