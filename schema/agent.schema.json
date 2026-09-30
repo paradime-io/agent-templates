@@ -1,0 +1,93 @@
+{
+  "type": "object",
+  "required": [
+    "name",
+    "version",
+    "role",
+    "goal",
+    "backstory"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Must match the filename — the pod refuses to load a definition where they disagree."
+    },
+    "version": {
+      "type": "integer",
+      "description": "Definition schema version."
+    },
+    "role": {
+      "type": "string",
+      "description": "Who the agent is."
+    },
+    "goal": {
+      "type": "string",
+      "description": "What it is trying to achieve."
+    },
+    "backstory": {
+      "type": "string",
+      "description": "Context that shapes how it works."
+    },
+    "model": {
+      "type": "string",
+      "enum": [
+        "haiku",
+        "sonnet",
+        "opus"
+      ],
+      "description": "Deprecated and ignored — set model_family instead."
+    },
+    "model_family": {
+      "type": "string",
+      "description": "Model family slug from the workspace list. If omitted, runs follow the current workspace default; the builder writes the displayed selection."
+    },
+    "environment": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Agent environment slug. If omitted, runs follow the current workspace default."
+    },
+    "tools": {
+      "type": "object",
+      "required": [
+        "mode"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": [
+            "allowlist",
+            "denylist"
+          ]
+        },
+        "list": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "slack": {
+      "type": "object",
+      "required": [
+        "channel"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "channel": {
+          "type": "string",
+          "description": "Channel the agent posts its output to."
+        }
+      }
+    },
+    "agents_squad": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Other agents this one may hand work to."
+    }
+  }
+}

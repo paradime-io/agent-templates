@@ -4,27 +4,26 @@ Templates shown on the "Create an agent" page of the Paradime agent builder. Eac
 
 ## Proposing a template
 
-1. Add `templates/<id>.json`, where `<id>` is kebab-case and matches the file name:
+1. Add `templates/<id>.yml`. It is a normal agent definition (the same file you would put in `.dinoai/agents/`) plus a `template:` block for the card:
 
-   ```json
-   {
-     "id": "freshness-watchdog",
-     "category": "Quality",
-     "icon": "clock-alert",
-     "description": "One line shown on the card.",
-     "draft": {
-       "name": "freshness-watchdog",
-       "role": "Who the agent is",
-       "goal": "What it is trying to achieve",
-       "backstory": "How it thinks and works",
-       "slackChannel": "#data-alerts"
-     }
-   }
+   ```yaml
+   template:
+     category: Quality
+     icon: clock-alert
+     description: One line shown on the card.
+   name: freshness-watchdog
+   version: 1
+   role: Who the agent is
+   goal: What it is trying to achieve
+   backstory: How it thinks and works
+   slack:
+     channel: "#data-alerts"
    ```
 
+   - `name` must match the file name
    - `icon` is a [lucide](https://lucide.dev/icons) icon name or an image URL
    - `category` must be listed in `categories.json`, which also sets the tab order
-   - optional draft fields: `slackChannel`, `model` (`haiku`, `sonnet`, `opus`), `toolMode` (`allowlist`, `denylist`), `tools`
+   - everything outside `template:` is checked against `schema/agent.schema.json`, the schema the agent builder uses
 
-2. Run `node scripts/build.mjs` to validate
+2. Run `npm ci && npm run build` to validate
 3. Open a pull request. It goes live once a code owner approves and merges it.
